@@ -1,3 +1,4 @@
+<script src="js/fhir-client.js"></script>
 (function(window){
   window.extractData = function() {
     var ret = $.Deferred();
@@ -59,7 +60,7 @@
 
           p.hdl = getQuantityValueAndUnit(hdl[0]);
           p.ldl = getQuantityValueAndUnit(ldl[0]);
-          
+          FHIR.oauth2.ready(onReady, onError);
           getAllFHIR(smart);
           ret.resolve(p);
         });
@@ -68,11 +69,13 @@
       }
     }
 
-    FHIR.oauth2.ready(onReady, onError);
+    //FHIR.oauth2.ready(onReady, onError);
     return ret.promise();
 
   };
 
+   
+  
   function getAllFHIR(smart){
            
            $("#main").html("<div class='alert alert-info'>Getting your Conditions, please be patient</div>")
