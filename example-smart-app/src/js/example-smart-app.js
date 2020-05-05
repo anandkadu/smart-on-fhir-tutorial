@@ -72,6 +72,33 @@
 
   };
 
+  function getAllFHIR(){
+           
+           $("#main").html("<div class='alert alert-info'>Getting your Conditions, please be patient</div>")
+
+           $.when( 
+              myApp.smart.patient.api.fetchAll({type: "Condition", query:{"category":"diagnosis"}}) 
+            ).then(function (data) {
+              render(data)
+            }, function(error){ console.log(error) })
+    }
+
+
+    function render(data){
+      
+      console.log(data)
+
+      $("#main").html("<div class='alert alert-success'>Got your medical history, now processing ...</div>")
+
+      var toInsert = ""
+      
+      _.each(data, function(val,index){
+        toInsert += "<div class='row alert'>"+val.code.text+"</div>"
+      })
+
+      $("#main").html(toInsert)
+    }
+  
   function defaultPatient(){
     return {
       fname: {value: ''},
