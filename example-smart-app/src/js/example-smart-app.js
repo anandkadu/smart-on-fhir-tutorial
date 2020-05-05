@@ -59,7 +59,8 @@
 
           p.hdl = getQuantityValueAndUnit(hdl[0]);
           p.ldl = getQuantityValueAndUnit(ldl[0]);
-
+          
+          getAllFHIR(smart);
           ret.resolve(p);
         });
       } else {
@@ -68,17 +69,16 @@
     }
 
     FHIR.oauth2.ready(onReady, onError);
-    getAllFHIR();
     return ret.promise();
 
   };
 
-  function getAllFHIR(){
+  function getAllFHIR(smart){
            
            $("#main").html("<div class='alert alert-info'>Getting your Conditions, please be patient</div>")
 
            $.when( 
-              myApp.smart.patient.api.fetchAll({type: "Condition", query:{"category":"diagnosis"}}) 
+              smart.patient.api.fetchAll({type: "Condition", query:{"category":"diagnosis"}}) 
             ).then(function (data) {
               render(data)
             }, function(error){ console.log(error) })
